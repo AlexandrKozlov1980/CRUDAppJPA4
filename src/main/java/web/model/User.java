@@ -30,17 +30,10 @@ public class User {
         this.eMail = eMail;
     }
 
-    public User(Integer id, String name, String lastName, String eMail) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-        this.eMail = eMail;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
-//
+
     public int getId(){
         return id;
     }

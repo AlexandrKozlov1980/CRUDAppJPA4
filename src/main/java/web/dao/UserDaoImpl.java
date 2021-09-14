@@ -4,9 +4,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.User;
-
-import javax.persistence.TypedQuery;
-
 import java.util.List;
 
 
@@ -18,44 +15,27 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public List<User> showAllUsers() {
-        TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("from User");
-        return query.getResultList();
+        return sessionFactory.getCurrentSession().createQuery("from User").getResultList();
     }
 
     @Override
     public User showUser(Integer id){
-        TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("FROM User e where e.id = :id");
-        query.setParameter("id", id);
-
-        return query.getSingleResult();
+        return (User) sessionFactory.getCurrentSession().createQuery("from User e where e.id = :id")
+                .setParameter("id", id).getSingleResult();
     }
 
     @Override
     public void createUser(User user) {
         sessionFactory.getCurrentSession().save(user);
-
     }
 
     @Override
-    public void updateUser(Integer id, User updatedUser) {
-        User userToBeUpdated = showUser(id);
-        userToBeUpdated.setName(updatedUser.getName());
-        userToBeUpdated.setLastName(updatedUser.getLastName());
-        userToBeUpdated.seteMail(updatedUser.geteMail());
-
-        sessionFactory.getCurrentSession().update(userToBeUpdated);
+    public void updateUser(User user) {
+        sessionFactory.getCurrentSession().update(user);
     }
 
     @Override
     public void deleteUser(Integer id){
-
-        User deletedUser;
-
-        TypedQuery<User> query=sessionFactory.getCurrentSession().createQuery("FROM User e where e.id = :id");
-        query.setParameter("id", id);
-
-        deletedUser = query.getSingleResult();
-        sessionFactory.getCurrentSession().delete(deletedUser);
-
+        sessionFactory.getCurrentSession().delete(showUser(id));
     }
 }

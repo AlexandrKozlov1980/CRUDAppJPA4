@@ -20,7 +20,7 @@ public class MainController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping
     public String getMain(Model model){
         model.addAttribute("users", userService.showAllUsers());
         return "main/index";
@@ -52,8 +52,8 @@ public class MainController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Integer id){
-        userService.updateUser(id, user);
+    public String update(@ModelAttribute("user") User user){
+        userService.updateUser(user);
         return "redirect:/";
 
     }
